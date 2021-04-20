@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_movie"
+        android:title="@string/nav_movies"
+        android:icon="@drawable/ic_outline_movie_24"/>
+
+    <item android:id="@+id/nav_tvshow"
+        android:title="TV Shows"
+        android:icon="@drawable/ic_outline_live_tv_24"/>
+
+    <item android:id="@+id/nav_profile"
+        android:title="Profile"
+        android:icon="@drawable/ic_outline_account_circle_24"/>
+</menu>

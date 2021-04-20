@@ -9,4 +9,9 @@
     <color name="grey_bg">#303030</color>
     <color name="grey">#21272e</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="navy">#040f2c</color>
+    <color name="lightnavy">#172A5B</color>
+    <color name="darknavy">#02091E</color>
+    <color name="grey_unselected">#A9A9A9</color>
+    <color name="yellow">#FFC107</color>
 </resources>

@@ -1,10 +1,12 @@
-package com.aprian1337.movie_catalogue
+package com.aprian1337.movie_catalogue.ui.splashscreen
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import com.aprian1337.movie_catalogue.ui.main.MainActivity
+import com.aprian1337.movie_catalogue.R
 
 class SplashscreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
