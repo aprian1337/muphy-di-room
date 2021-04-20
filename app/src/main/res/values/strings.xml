@@ -6,4 +6,8 @@
     <string name="featured_movies">Featured Movies</string>
     <string name="list_movies">List Movies</string>
     <string name="image_movies">Image Movies</string>
+    <string name="featured_tv_shows">Featured TV Shows</string>
+    <string name="list_tv_shows">List TV Shows</string>
+    <string name="profile_name">Dwiky Aprian Ashari</string>
+    <string name="profile_role">Mobile Developer</string>
 </resources>
