@@ -6,14 +6,16 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.aprian1337.movie_catalogue.ui.main.MainActivity
-import com.aprian1337.movie_catalogue.R
+import com.aprian1337.movie_catalogue.databinding.ActivitySplashscreenBinding
 
 class SplashscreenActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySplashscreenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splashscreen)
+        binding = ActivitySplashscreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val delayDuration : Long = 4000
-        supportActionBar?.hide()
         Handler(Looper.getMainLooper()).postDelayed({
             Intent(this@SplashscreenActivity, MainActivity::class.java).apply {
                 startActivity(this)
