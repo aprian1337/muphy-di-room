@@ -33,15 +33,15 @@ class DetailActivity : AppCompatActivity() {
         viewModel.setMovieTv(data)
         viewModel.getMovieTv().let {
             with(binding){
-                tvTitle.text = it.title
-                tvGenre.text = it.genre
-                tvLength.text = it.length
-                tvParental.text = it.parental
-                tvOverview.text = it.overview
+                tvDetailTitle.text = it.title
+                tvDetailGenre.text = it.genre
+                tvDetailLength.text = it.length
+                tvDetailParental.text = it.parental
+                tvDetailOverview.text = it.overview
                 Glide.with(binding.root)
                     .load(it.image)
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(imgView)
+                    .into(imgDetailView)
             }
         }
     }

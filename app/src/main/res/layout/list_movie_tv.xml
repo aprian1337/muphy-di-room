@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
@@ -18,7 +17,7 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/image_movies"
             android:scaleType="fitXY"
@@ -62,6 +61,5 @@
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/tv_genre"
         app:layout_constraintTop_toBottomOf="@+id/tv_genre" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

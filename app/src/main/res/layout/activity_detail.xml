@@ -41,7 +41,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/imgView"
+                    android:id="@+id/imgDetailView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/image_movies"
@@ -50,7 +50,7 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/tv_parental"
+                android:id="@+id/tv_detail_parental"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toTopOf="@+id/cardView3" />
 
             <TextView
-                android:id="@+id/tv_title_head"
+                android:id="@+id/tv_detail_title_head"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -77,7 +77,7 @@
                 app:layout_constraintTop_toTopOf="@+id/cardView3" />
 
             <TextView
-                android:id="@+id/tv_title"
+                android:id="@+id/tv_detail_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
@@ -85,8 +85,8 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/tv_title_head"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_head" />
+                app:layout_constraintStart_toStartOf="@+id/tv_detail_title_head"
+                app:layout_constraintTop_toBottomOf="@+id/tv_detail_title_head" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -97,11 +97,11 @@
                 android:text="@string/genre"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/tv_title"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+                app:layout_constraintStart_toStartOf="@+id/tv_detail_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_detail_title" />
 
             <TextView
-                android:id="@+id/tv_genre"
+                android:id="@+id/tv_detail_genre"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
@@ -121,11 +121,11 @@
                 android:text="@string/length"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/tv_genre"
-                app:layout_constraintTop_toBottomOf="@+id/tv_genre" />
+                app:layout_constraintStart_toStartOf="@+id/tv_detail_genre"
+                app:layout_constraintTop_toBottomOf="@+id/tv_detail_genre" />
 
             <TextView
-                android:id="@+id/tv_length"
+                android:id="@+id/tv_detail_length"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
@@ -154,7 +154,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
             <TextView
-                android:id="@+id/tv_overview"
+                android:id="@+id/tv_detail_overview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
