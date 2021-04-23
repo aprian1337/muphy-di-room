@@ -10,4 +10,8 @@
     <string name="list_tv_shows">List TV Shows</string>
     <string name="profile_name">Dwiky Aprian Ashari</string>
     <string name="profile_role">Mobile Developer</string>
+    <string name="length">Length</string>
+    <string name="genre">Genre</string>
+    <string name="title">Title</string>
+    <string name="overview">Overview</string>
 </resources>
