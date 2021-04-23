@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.tvshowsfragment.TvShowsFragment">
+    tools:context=".ui.main.tvshow.TvShowsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_featured_movie"
+            android:id="@+id/rv_featured_tv_show"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -45,10 +45,10 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_featured_movie" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_featured_tv_show" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_list_movies"
+            android:id="@+id/rv_list_tv_shows"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
