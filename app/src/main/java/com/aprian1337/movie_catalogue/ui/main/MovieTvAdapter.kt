@@ -13,7 +13,13 @@ class MovieTvAdapter : RecyclerView.Adapter<MovieTvAdapter.MainViewHolder>() {
 
     val movieTv = mutableListOf<MovieTv>()
 
-    fun setMovieTv(list : ArrayList<MovieTv>){
+    private var setOnItemClickCallback : OnItemClickCallback? = null
+    
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
+        this.setOnItemClickCallback = onItemClickCallback
+    }
+    
+    fun setMovieTv(list : List<MovieTv>){
         movieTv.addAll(list.toMutableList())
         notifyDataSetChanged()
     }
@@ -33,8 +39,15 @@ class MovieTvAdapter : RecyclerView.Adapter<MovieTvAdapter.MainViewHolder>() {
             tvTitle.text = movieTv.title
             tvGenre.text = movieTv.genre
             tvLength.text = movieTv.length
+            root.setOnClickListener{
+                setOnItemClickCallback?.onItemClicked(movieTv)
+            }
         }
     }
 
     override fun getItemCount(): Int = movieTv.size
+    
+    interface OnItemClickCallback{
+        fun onItemClicked(data: MovieTv)
+    }
 }
