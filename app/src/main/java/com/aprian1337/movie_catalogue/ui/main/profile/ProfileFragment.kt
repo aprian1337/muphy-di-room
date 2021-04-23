@@ -1,4 +1,4 @@
-package com.aprian1337.movie_catalogue.ui.main.profilefragment
+package com.aprian1337.movie_catalogue.ui.main.profile
 
 import android.content.Intent
 import android.net.Uri
