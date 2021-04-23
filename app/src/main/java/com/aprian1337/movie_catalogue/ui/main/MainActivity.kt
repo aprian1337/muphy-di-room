@@ -2,13 +2,12 @@ package com.aprian1337.movie_catalogue.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
 import com.aprian1337.movie_catalogue.R
 import com.aprian1337.movie_catalogue.databinding.ActivityMainBinding
-import com.aprian1337.movie_catalogue.ui.main.moviesfragment.MoviesFragment
-import com.aprian1337.movie_catalogue.ui.main.profilefragment.ProfileFragment
-import com.aprian1337.movie_catalogue.ui.main.tvshowsfragment.TvShowsFragment
+import com.aprian1337.movie_catalogue.ui.main.movie.MoviesFragment
+import com.aprian1337.movie_catalogue.ui.main.profile.ProfileFragment
+import com.aprian1337.movie_catalogue.ui.main.tvshow.TvShowsFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -16,7 +15,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         addFragment(MoviesFragment())
 
         binding.navView.setOnNavigationItemSelectedListener {

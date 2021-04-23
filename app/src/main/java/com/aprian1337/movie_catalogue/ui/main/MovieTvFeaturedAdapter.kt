@@ -11,9 +11,15 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 class MovieTvFeaturedAdapter : RecyclerView.Adapter<MovieTvFeaturedAdapter.MainViewHolder>() {
     inner class MainViewHolder(val binding: ListFeaturedBinding) : RecyclerView.ViewHolder(binding.root)
 
+    private var setOnItemClickCallback : OnItemClickCallback?= null
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
+        setOnItemClickCallback = onItemClickCallback
+    }
+
     val featuredMovieTv = mutableListOf<MovieTv>()
 
-    fun setFeaturedMovieTv(list : ArrayList<MovieTv>){
+    fun setFeaturedMovieTv(list : List<MovieTv>){
         featuredMovieTv.addAll(list.toMutableList())
         notifyDataSetChanged()
     }
@@ -31,8 +37,15 @@ class MovieTvFeaturedAdapter : RecyclerView.Adapter<MovieTvFeaturedAdapter.MainV
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imageViewFeatured)
             tvFeaturedTitle.text = data.title
+            root.setOnClickListener{
+                setOnItemClickCallback?.onItemClicked(data)
+            }
         }
     }
 
     override fun getItemCount(): Int = featuredMovieTv.size
+
+    interface OnItemClickCallback{
+        fun onItemClicked(data : MovieTv)
+    }
 }

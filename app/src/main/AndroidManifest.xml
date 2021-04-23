@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Moviecatalogue">
+        <activity android:name="com.aprian1337.movie_catalogue.ui.detail.DetailActivity"/>
         <activity android:name=".ui.splashscreen.SplashscreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.MainActivity"/>
+        <activity android:name=".ui.main.MainActivity" android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"/>
     </application>
 
 </manifest>
