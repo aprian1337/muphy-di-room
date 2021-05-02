@@ -83,7 +83,7 @@ class MainActivityTest {
         val position = 4
         val data = DummyData.getMovies()[position]
         try {
-            for (i in 0..20) {
+            for (i in 1..20) {
                 onView(withId(R.id.tv_list_movies)).perform(swipeUp())
             }
         }catch (e: PerformException){ }finally {
@@ -119,7 +119,7 @@ class MainActivityTest {
         val data = DummyData.getTvShows()[position]
         onView(withId(R.id.nav_tvshow)).perform(click())
         try {
-            for (i in 0..20) {
+            for (i in 1..20) {
                 onView(withId(R.id.tv_list_tv_shows)).perform(swipeUp())
             }
         }catch (e: PerformException){ }finally {
