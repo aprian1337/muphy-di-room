@@ -11,5 +11,5 @@ class DetailViewModel : ViewModel() {
         movieTv = list
     }
 
-    fun getMovieTv() : MovieTv =
+    fun getMovieTv() : MovieTv = movieTv
 }
