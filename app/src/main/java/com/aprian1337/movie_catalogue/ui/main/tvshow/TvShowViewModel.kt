@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.aprian1337.movie_catalogue.data.models.MovieTv
 import com.aprian1337.movie_catalogue.data.network.response.GenresItem
-import com.aprian1337.movie_catalogue.data.network.response.ResponseData
-import com.aprian1337.movie_catalogue.data.network.response.TvShowsResponse
 import com.aprian1337.movie_catalogue.data.repository.MainRepository
 
 class TvShowViewModel(private val mainRepository: MainRepository) : ViewModel() {

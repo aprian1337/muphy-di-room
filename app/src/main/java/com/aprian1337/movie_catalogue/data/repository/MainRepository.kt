@@ -51,7 +51,6 @@ class MainRepository private constructor(private val networkDataSource: NetworkD
                 ) {
                     Log.d("fail", t.message.toString())
                 }
-
             })
         }
         return genresTvShowsList
@@ -247,10 +246,10 @@ class MainRepository private constructor(private val networkDataSource: NetworkD
                     with(response.body()) {
                         var stringGenre = ""
                         for (genre in this?.genres!!) {
-                            if (genre.id != this.genres[genres.size - 1].id) {
-                                stringGenre += genre.name + ", "
+                            stringGenre += if (genre.id != this.genres[genres.size - 1].id) {
+                                genre.name + ", "
                             } else {
-                                stringGenre += genre.name
+                                genre.name
                             }
                         }
                         detailMovies.postValue(
@@ -286,10 +285,10 @@ class MainRepository private constructor(private val networkDataSource: NetworkD
                     with(response.body()) {
                         var stringGenre = ""
                         for (genre in this?.genres!!) {
-                            if (genre.id != this.genres[genres.size - 1].id) {
-                                stringGenre += genre.name + ", "
+                            stringGenre += if (genre.id != this.genres[genres.size - 1].id) {
+                                genre.name + ", "
                             } else {
-                                stringGenre += genre.name
+                                genre.name
                             }
                         }
                         detailTvShows.postValue(

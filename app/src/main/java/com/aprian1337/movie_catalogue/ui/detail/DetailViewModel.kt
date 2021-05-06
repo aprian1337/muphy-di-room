@@ -1,11 +1,8 @@
 package com.aprian1337.movie_catalogue.ui.detail
 
-import android.graphics.Movie
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aprian1337.movie_catalogue.data.models.DetailMovieTv
-import com.aprian1337.movie_catalogue.data.models.MovieTv
 import com.aprian1337.movie_catalogue.data.repository.MainRepository
 
 class DetailViewModel(private val mainRepository: MainRepository) : ViewModel() {

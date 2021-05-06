@@ -1,6 +1,5 @@
 package com.aprian1337.movie_catalogue.ui.main.tvshow
 
-import com.aprian1337.movie_catalogue.utils.DummyData
 import org.junit.Test
 
 import org.junit.Assert.*

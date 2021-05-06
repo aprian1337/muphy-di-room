@@ -65,13 +65,13 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_light"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:drawablePadding="5dp"
-            android:drawableLeft="@drawable/ic_baseline_star_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_genre" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_genre"
+            app:drawableStartCompat="@drawable/ic_baseline_star_24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
