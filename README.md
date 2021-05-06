@@ -1,2 +1,2 @@
 # muphy
-Dicoding - Submission 1 BAJP
+Dicoding - Submission 2 BAJP
