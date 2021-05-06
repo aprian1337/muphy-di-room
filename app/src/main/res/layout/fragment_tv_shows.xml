@@ -24,6 +24,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ProgressBar
+            android:id="@+id/pb_featured"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/yellow"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/tv_list_tv_shows"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_header_featured_tvshows" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_featured_tv_show"
             android:layout_width="match_parent"
@@ -47,6 +60,18 @@
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_featured_tv_show" />
+
+        <ProgressBar
+            android:id="@+id/pb_list"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/yellow"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_list_tv_shows" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_list_tv_shows"
