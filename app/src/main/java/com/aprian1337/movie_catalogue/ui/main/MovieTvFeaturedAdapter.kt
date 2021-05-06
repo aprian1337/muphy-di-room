@@ -3,8 +3,10 @@ package com.aprian1337.movie_catalogue.ui.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.aprian1337.movie_catalogue.data.models.MovieTv
+import com.aprian1337.movie_catalogue.data.network.response.GenresItem
 import com.aprian1337.movie_catalogue.databinding.ListFeaturedBinding
-import com.aprian1337.movie_catalogue.models.MovieTv
+import com.aprian1337.movie_catalogue.utils.Constants
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
@@ -17,10 +19,18 @@ class MovieTvFeaturedAdapter : RecyclerView.Adapter<MovieTvFeaturedAdapter.MainV
         setOnItemClickCallback = onItemClickCallback
     }
 
-    val featuredMovieTv = mutableListOf<MovieTv>()
+    private val featuredMovieTv = mutableListOf<MovieTv>()
+    private val genres = mutableListOf<GenresItem>()
+
+    fun setGenreMovieTv(list : List<GenresItem>){
+        genres.clear()
+        genres.addAll(list)
+        notifyDataSetChanged()
+    }
 
     fun setFeaturedMovieTv(list : List<MovieTv>){
-        featuredMovieTv.addAll(list.toMutableList())
+        featuredMovieTv.clear()
+        featuredMovieTv.addAll(list)
         notifyDataSetChanged()
     }
 
@@ -31,9 +41,23 @@ class MovieTvFeaturedAdapter : RecyclerView.Adapter<MovieTvFeaturedAdapter.MainV
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val data = featuredMovieTv[position]
+        var genreString = ""
+        for(genreId in data.genre){
+            for(genre in genres){
+                if (genreId == genre.id) {
+                    if (genreId != data.genre[data.genre.size - 1]) {
+                        genreString += genre.name + ", "
+                        break
+                    } else {
+                        genreString += genre.name
+                        break
+                    }
+                }
+            }
+        }
         with(holder.binding){
             Glide.with(root.context)
-                .load(data.image)
+                .load(Constants.BASE_IMAGE_URL + data.image)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imageViewFeatured)
             tvFeaturedTitle.text = data.title

@@ -9,18 +9,18 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aprian1337.movie_catalogue.databinding.FragmentTvShowsBinding
-import com.aprian1337.movie_catalogue.models.MovieTv
+import com.aprian1337.movie_catalogue.data.models.MovieTv
+import com.aprian1337.movie_catalogue.ui.AppViewModelFactory
 import com.aprian1337.movie_catalogue.ui.main.MovieTvAdapter
 import com.aprian1337.movie_catalogue.ui.main.MovieTvFeaturedAdapter
 import com.aprian1337.movie_catalogue.ui.detail.DetailActivity
-import com.aprian1337.movie_catalogue.utils.DummyData
 
 class TvShowsFragment : Fragment() {
 
     private val movieTvAdapter by lazy { MovieTvAdapter() }
     private val movieTvFeaturedAdapter by lazy { MovieTvFeaturedAdapter() }
-    private lateinit var viewModel : TvShowViewModel
-    private var _binding : FragmentTvShowsBinding? = null
+    private lateinit var viewModel: TvShowViewModel
+    private var _binding: FragmentTvShowsBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,44 +30,60 @@ class TvShowsFragment : Fragment() {
         return binding.root
     }
 
+    companion object{
+        private const val TAG = "TVSHOWS"
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRv()
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(TvShowViewModel::class.java)
-        viewModel.setTvShow(DummyData.getTvShows())
-        viewModel.setTvShowFeatured(DummyData.getFeaturedTvShows())
-        movieTvAdapter.setMovieTv(viewModel.getTvShow())
-        movieTvFeaturedAdapter.setFeaturedMovieTv(viewModel.getTvShowFeatured())
-        movieTvAdapter.setOnItemClickCallback(object : MovieTvAdapter.OnItemClickCallback{
-            override fun onItemClicked(data: MovieTv) {
+        setFeaturedLoading(true)
+        setListLoading(true)
+        viewModel = ViewModelProvider(
+            this,
+            AppViewModelFactory.getInstance()
+        ).get(TvShowViewModel::class.java)
+        viewModel.apply {
+            getFeaturedTvShows().observe(viewLifecycleOwner, {
+                movieTvFeaturedAdapter.setFeaturedMovieTv(it)
+                setFeaturedLoading(false)
+            })
+
+            getOnAirTvShows().observe(viewLifecycleOwner, {
+                movieTvAdapter.setMovieTv(it)
+                setListLoading(false)
+            })
+
+            getGenreTvShows().observe(viewLifecycleOwner, {
+                movieTvAdapter.setGenreMovieTv(it)
+                movieTvFeaturedAdapter.setGenreMovieTv(it)
+            })
+        }
+        
+
+        movieTvAdapter.setOnItemClickCallback(object : MovieTvAdapter.OnItemClickCallback {
+            override fun onItemClicked(data : MovieTv) {
                 selectedUser(data)
             }
         })
-        movieTvFeaturedAdapter.setOnItemClickCallback(object : MovieTvFeaturedAdapter.OnItemClickCallback{
-            override fun onItemClicked(data: MovieTv) {
+        movieTvFeaturedAdapter.setOnItemClickCallback(object :
+            MovieTvFeaturedAdapter.OnItemClickCallback {
+            override fun onItemClicked(data : MovieTv) {
                 selectedUser(data)
             }
         })
     }
 
-    private fun selectedUser(data: MovieTv) {
+    private fun selectedUser(data : MovieTv) {
         Intent(activity, DetailActivity::class.java).apply {
-            val dataParcelable = MovieTv(
-                data.id,
-                data.title,
-                data.genre,
-                data.length,
-                data.overview,
-                data.image,
-                data.parental
-            )
-            putExtra(DetailActivity.EXTRA_MOVIE_TV, dataParcelable)
+            putExtra(DetailActivity.EXTRA_TYPE_TAG, TAG)
+            putExtra(DetailActivity.EXTRA_ID_MOVIETV, data.id)
             startActivity(this)
         }
     }
 
-    private fun setupRv(){
-        with(binding){
+    private fun setupRv() {
+        with(binding) {
             rvListTvShows.apply {
                 adapter = movieTvAdapter
                 layoutManager = LinearLayoutManager(activity)
@@ -78,6 +94,22 @@ class TvShowsFragment : Fragment() {
                 layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
             }
+        }
+    }
+
+    private fun setFeaturedLoading(state : Boolean){
+        if(state){
+            binding.pbFeatured.visibility = View.VISIBLE
+        }else{
+            binding.pbFeatured.visibility = View.GONE
+        }
+    }
+
+    private fun setListLoading(state: Boolean){
+        if(state){
+            binding.pbList.visibility = View.VISIBLE
+        }else{
+            binding.pbList.visibility = View.GONE
         }
     }
 }

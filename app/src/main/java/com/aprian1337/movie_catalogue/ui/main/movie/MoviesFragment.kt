@@ -8,15 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aprian1337.movie_catalogue.data.models.MovieTv
 import com.aprian1337.movie_catalogue.databinding.FragmentMoviesBinding
-import com.aprian1337.movie_catalogue.models.MovieTv
+import com.aprian1337.movie_catalogue.ui.AppViewModelFactory
 import com.aprian1337.movie_catalogue.ui.main.MovieTvAdapter
 import com.aprian1337.movie_catalogue.ui.main.MovieTvFeaturedAdapter
 import com.aprian1337.movie_catalogue.ui.detail.DetailActivity
-import com.aprian1337.movie_catalogue.utils.DummyData
 
 class MoviesFragment : Fragment() {
-
     private var _binding : FragmentMoviesBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: MoviesViewModel
@@ -30,16 +29,34 @@ class MoviesFragment : Fragment() {
         return binding.root
     }
 
+    companion object{
+        private const val TAG = "MOVIES"
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRv()
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MoviesViewModel::class.java)
+        setFeaturedLoading(true)
+        setListLoading(true)
+        viewModel = ViewModelProvider(this, AppViewModelFactory.getInstance()).get(MoviesViewModel::class.java)
         viewModel.apply {
-            setMovies(DummyData.getMovies())
-            setMoviesFeatured(DummyData.getFeaturedMovies())
+            getNowMovies().observe(viewLifecycleOwner, {
+                movieTvAdapter.setMovieTv(it)
+                setListLoading(false)
+            })
+
+            getGenreMovies().observe(viewLifecycleOwner, {
+                movieTvAdapter.setGenreMovieTv(it)
+                movieTvFeaturedAdapter.setGenreMovieTv(it)
+            })
+
+            getFeaturedMovies().observe(viewLifecycleOwner, {
+                movieTvFeaturedAdapter.setFeaturedMovieTv(it)
+                setFeaturedLoading(false)
+            })
+
         }
-        movieTvAdapter.setMovieTv(viewModel.getMovies())
-        movieTvFeaturedAdapter.setFeaturedMovieTv(viewModel.getMoviesFeatured())
+
         movieTvAdapter.setOnItemClickCallback(object : MovieTvAdapter.OnItemClickCallback{
             override fun onItemClicked(data: MovieTv) {
                 selectedUser(data)
@@ -54,16 +71,8 @@ class MoviesFragment : Fragment() {
 
     private fun selectedUser(data: MovieTv) {
         Intent(activity, DetailActivity::class.java).apply {
-            val dataParcelable = MovieTv(
-                data.id,
-                data.title,
-                data.genre,
-                data.length,
-                data.overview,
-                data.image,
-                data.parental
-            )
-            putExtra(DetailActivity.EXTRA_MOVIE_TV, dataParcelable)
+            putExtra(DetailActivity.EXTRA_TYPE_TAG, TAG)
+            putExtra(DetailActivity.EXTRA_ID_MOVIETV, data.id)
             startActivity(this)
         }
     }
@@ -80,6 +89,22 @@ class MoviesFragment : Fragment() {
                 layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
             }
+        }
+    }
+
+    private fun setFeaturedLoading(state : Boolean){
+        if(state){
+            binding.pbFeatured.visibility = View.VISIBLE
+        }else{
+            binding.pbFeatured.visibility = View.GONE
+        }
+    }
+
+    private fun setListLoading(state: Boolean){
+        if(state){
+            binding.pbList.visibility = View.VISIBLE
+        }else{
+            binding.pbList.visibility = View.GONE
         }
     }
 }

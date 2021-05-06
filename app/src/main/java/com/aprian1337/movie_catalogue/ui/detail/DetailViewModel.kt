@@ -1,15 +1,14 @@
 package com.aprian1337.movie_catalogue.ui.detail
 
+import android.graphics.Movie
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.aprian1337.movie_catalogue.models.MovieTv
+import com.aprian1337.movie_catalogue.data.models.DetailMovieTv
+import com.aprian1337.movie_catalogue.data.models.MovieTv
+import com.aprian1337.movie_catalogue.data.repository.MainRepository
 
-class DetailViewModel : ViewModel() {
-
-    private var movieTv = MovieTv()
-
-    fun setMovieTv(list : MovieTv){
-        movieTv = list
-    }
-
-    fun getMovieTv() : MovieTv = movieTv
+class DetailViewModel(private val mainRepository: MainRepository) : ViewModel() {
+    fun getDetailMovies(id : Int) : LiveData<DetailMovieTv> = mainRepository.getDetailMovies(id.toString())
+    fun getDetailTvShows(id : Int) : LiveData<DetailMovieTv> = mainRepository.getDetailTvShows(id.toString())
 }
