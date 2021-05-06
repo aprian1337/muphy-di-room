@@ -31,6 +31,20 @@
             android:layout_height="wrap_content"
             android:paddingBottom="25dp">
 
+            <ProgressBar
+                android:id="@+id/pb_detail"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/yellow"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView3"
                 android:layout_width="150dp"
@@ -68,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/poppins_semibold"
                 android:text="@string/title"
                 android:textColor="@color/white"
@@ -83,6 +97,8 @@
                 android:fontFamily="@font/poppins_regular"
                 android:textColor="@color/white"
                 android:textSize="14sp"
+                android:maxLines="2"
+                android:ellipsize="end"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/tv_detail_title_head"
@@ -107,6 +123,8 @@
                 android:fontFamily="@font/poppins_regular"
                 android:textColor="@color/white"
                 android:textSize="14sp"
+                android:maxLines="2"
+                android:ellipsize="end"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView4"
@@ -118,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="@string/length"
+                android:text="@string/release_date"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/tv_detail_genre"
