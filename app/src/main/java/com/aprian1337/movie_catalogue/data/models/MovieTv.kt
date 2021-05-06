@@ -1,7 +1,5 @@
 package com.aprian1337.movie_catalogue.data.models
 
-import android.os.Parcelable
-
 data class MovieTv(
     val id: Int,
     val title: String,
