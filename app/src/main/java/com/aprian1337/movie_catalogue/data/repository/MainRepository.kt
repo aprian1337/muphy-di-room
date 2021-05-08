@@ -13,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainRepository private constructor(private val networkDataSource: NetworkDataSource) :
+class MainRepository constructor(private val networkDataSource: NetworkDataSource) :
     MainDataSource {
 
     val featuredMoviesList = MutableLiveData<List<MovieTv>>()
@@ -83,14 +83,14 @@ class MainRepository private constructor(private val networkDataSource: NetworkD
     override fun getFeaturedMovies(): LiveData<List<MovieTv>> {
         val featuredMoviesResponse = networkDataSource.getFeaturedMovies()
         GlobalScope.launch {
-            featuredMoviesResponse.enqueue(object : Callback<ResponseData<MoviesResponse>> {
+            featuredMoviesResponse.enqueue(object : Callback<ResponseDataMovies<MoviesResponse>> {
                 override fun onResponse(
-                    call: Call<ResponseData<MoviesResponse>>,
-                    response: Response<ResponseData<MoviesResponse>>
+                    call: Call<ResponseDataMovies<MoviesResponse>>,
+                    responseMovies: Response<ResponseDataMovies<MoviesResponse>>
                 ) {
-                    if (response.isSuccessful) {
+                    if (responseMovies.isSuccessful) {
                         val movieList = mutableListOf<MovieTv>()
-                        for (datas in response.body()?.results!!) {
+                        for (datas in responseMovies.body()?.results!!) {
 
                             movieList.add(
                                 MovieTv(
@@ -109,7 +109,7 @@ class MainRepository private constructor(private val networkDataSource: NetworkD
                 }
 
                 override fun onFailure(
-                    call: Call<ResponseData<MoviesResponse>>,
+                    call: Call<ResponseDataMovies<MoviesResponse>>,
                     t: Throwable
                 ) {
                     Log.d("fail", t.message.toString())
@@ -122,14 +122,14 @@ class MainRepository private constructor(private val networkDataSource: NetworkD
     override fun getNowMovies(): LiveData<List<MovieTv>> {
         val nowMoviesResponse = networkDataSource.getNowMovies()
         runBlocking {
-            nowMoviesResponse.enqueue(object : Callback<ResponseData<MoviesResponse>> {
+            nowMoviesResponse.enqueue(object : Callback<ResponseDataMovies<MoviesResponse>> {
                 override fun onResponse(
-                    call: Call<ResponseData<MoviesResponse>>,
-                    response: Response<ResponseData<MoviesResponse>>
+                    call: Call<ResponseDataMovies<MoviesResponse>>,
+                    responseMovies: Response<ResponseDataMovies<MoviesResponse>>
                 ) {
-                    if (response.isSuccessful) {
+                    if (responseMovies.isSuccessful) {
                         val movieList = mutableListOf<MovieTv>()
-                        for (datas in response.body()?.results!!) {
+                        for (datas in responseMovies.body()?.results!!) {
                             movieList.add(
                                 MovieTv(
                                     datas.id,
@@ -147,7 +147,7 @@ class MainRepository private constructor(private val networkDataSource: NetworkD
                 }
 
                 override fun onFailure(
-                    call: Call<ResponseData<MoviesResponse>>,
+                    call: Call<ResponseDataMovies<MoviesResponse>>,
                     t: Throwable
                 ) {
                     Log.d("fail", t.message.toString())
@@ -160,14 +160,14 @@ class MainRepository private constructor(private val networkDataSource: NetworkD
     override fun getFeaturedTvShows(): LiveData<List<MovieTv>> {
         val featuredTvShows = networkDataSource.getFeaturedTvShows()
         GlobalScope.launch {
-            featuredTvShows.enqueue(object : Callback<ResponseData<TvShowsResponse>> {
+            featuredTvShows.enqueue(object : Callback<ResponseDataTv<TvShowsResponse>> {
                 override fun onResponse(
-                    call: Call<ResponseData<TvShowsResponse>>,
-                    response: Response<ResponseData<TvShowsResponse>>
+                    call: Call<ResponseDataTv<TvShowsResponse>>,
+                    responseMovies: Response<ResponseDataTv<TvShowsResponse>>
                 ) {
-                    if (response.isSuccessful) {
+                    if (responseMovies.isSuccessful) {
                         val movieList = mutableListOf<MovieTv>()
-                        for (datas in response.body()?.results!!) {
+                        for (datas in responseMovies.body()?.results!!) {
                             movieList.add(
                                 MovieTv(
                                     datas.id,
@@ -185,7 +185,7 @@ class MainRepository private constructor(private val networkDataSource: NetworkD
                 }
 
                 override fun onFailure(
-                    call: Call<ResponseData<TvShowsResponse>>,
+                    call: Call<ResponseDataTv<TvShowsResponse>>,
                     t: Throwable
                 ) {
                     Log.d("fail", t.message.toString())
@@ -198,14 +198,14 @@ class MainRepository private constructor(private val networkDataSource: NetworkD
     override fun getOnAirTvShows(): LiveData<List<MovieTv>> {
         val onAirTvShows = networkDataSource.getOnAirTvShows()
         GlobalScope.launch {
-            onAirTvShows.enqueue(object : Callback<ResponseData<TvShowsResponse>> {
+            onAirTvShows.enqueue(object : Callback<ResponseDataTv<TvShowsResponse>> {
                 override fun onResponse(
-                    call: Call<ResponseData<TvShowsResponse>>,
-                    response: Response<ResponseData<TvShowsResponse>>
+                    call: Call<ResponseDataTv<TvShowsResponse>>,
+                    responseMovies: Response<ResponseDataTv<TvShowsResponse>>
                 ) {
-                    if (response.isSuccessful) {
+                    if (responseMovies.isSuccessful) {
                         val movieList = mutableListOf<MovieTv>()
-                        for (datas in response.body()?.results!!) {
+                        for (datas in responseMovies.body()?.results!!) {
 
                             movieList.add(
                                 MovieTv(
@@ -224,7 +224,7 @@ class MainRepository private constructor(private val networkDataSource: NetworkD
                 }
 
                 override fun onFailure(
-                    call: Call<ResponseData<TvShowsResponse>>,
+                    call: Call<ResponseDataTv<TvShowsResponse>>,
                     t: Throwable
                 ) {
                     Log.d("fail", t.message.toString())
@@ -311,4 +311,27 @@ class MainRepository private constructor(private val networkDataSource: NetworkD
         })
         return detailTvShows
     }
+
+//    override fun testGetFeaturedMovies(): LiveData<List<MovieTv>> {
+//        val featuredMoviesResponse = networkDataSource.getFeaturedMovies()
+//        val movieList = MutableLiveData<List<MovieTv>>()
+//        featuredMoviesResponse.enqueue(object: Callback<List<ResponseDataMovies>>{
+//            override fun onResponse(call: Call<List<ResponseDataMovies>>, response: Response<List<ResponseDataMovies>>) {
+//                if(response.isSuccessful){}
+//            }
+//
+//            override fun onFailure(call: Call<List<ResponseDataMovies>>, t: Throwable) {
+//                TODO("Not yet implemented")
+//            }
+//
+//        })
+//        featuredMoviesResponse(object : ApiCallback<ArrayList<MovieList>> {
+//            override fun onSuccess(item: ArrayList<MovieList>) {
+//                movieList.postValue(item)
+//            }
+//
+//            override fun onFailure(error: Throwable) {}
+//        })
+//        return movieList
+//    }
 }
