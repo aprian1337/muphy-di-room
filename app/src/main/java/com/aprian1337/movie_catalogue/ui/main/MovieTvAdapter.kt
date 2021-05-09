@@ -3,8 +3,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aprian1337.movie_catalogue.data.models.MovieTv
-import com.aprian1337.movie_catalogue.databinding.ListMovieTvBinding
 import com.aprian1337.movie_catalogue.data.network.response.GenresItem
+import com.aprian1337.movie_catalogue.databinding.ListMovieTvBinding
 import com.aprian1337.movie_catalogue.utils.Constants
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
