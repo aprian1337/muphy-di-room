@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.aprian1337.movie_catalogue.data.models.DetailMovieTv
 import com.aprian1337.movie_catalogue.data.models.MovieTv
 import com.aprian1337.movie_catalogue.data.network.response.*
+import com.aprian1337.movie_catalogue.utils.EspressoIdlingResource
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -36,6 +37,7 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
 
     override fun getGenreTvShows(): LiveData<List<GenresItem>> {
         val genres = networkDataSource.getGenreTvShows()
+        EspressoIdlingResource.increment()
         GlobalScope.launch {
             genres.enqueue(object : Callback<GenreResponse<GenresItem>> {
                 override fun onResponse(
@@ -53,11 +55,13 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
                 }
             })
         }
+        EspressoIdlingResource.decrement()
         return genresTvShowsList
     }
 
     override fun getGenreMovies(): LiveData<List<GenresItem>> {
         val genres = networkDataSource.getGenreMovies()
+        EspressoIdlingResource.increment()
         GlobalScope.launch {
             genres.enqueue(object : Callback<GenreResponse<GenresItem>> {
                 override fun onResponse(
@@ -77,11 +81,13 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
                 }
             })
         }
+        EspressoIdlingResource.decrement()
         return genreMovieList
     }
 
     override fun getFeaturedMovies(): LiveData<List<MovieTv>> {
         val featuredMoviesResponse = networkDataSource.getFeaturedMovies()
+        EspressoIdlingResource.increment()
         GlobalScope.launch {
             featuredMoviesResponse.enqueue(object : Callback<ResponseDataMovies<MoviesResponse>> {
                 override fun onResponse(
@@ -91,7 +97,6 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
                     if (responseMovies.isSuccessful) {
                         val movieList = mutableListOf<MovieTv>()
                         for (datas in responseMovies.body()?.results!!) {
-
                             movieList.add(
                                 MovieTv(
                                     datas.id,
@@ -116,10 +121,12 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
                 }
             })
         }
+        EspressoIdlingResource.decrement()
         return featuredMoviesList
     }
 
     override fun getNowMovies(): LiveData<List<MovieTv>> {
+        EspressoIdlingResource.increment()
         val nowMoviesResponse = networkDataSource.getNowMovies()
         runBlocking {
             nowMoviesResponse.enqueue(object : Callback<ResponseDataMovies<MoviesResponse>> {
@@ -154,10 +161,12 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
                 }
             })
         }
+        EspressoIdlingResource.decrement()
         return nowMoviesList
     }
 
     override fun getFeaturedTvShows(): LiveData<List<MovieTv>> {
+        EspressoIdlingResource.increment()
         val featuredTvShows = networkDataSource.getFeaturedTvShows()
         GlobalScope.launch {
             featuredTvShows.enqueue(object : Callback<ResponseDataTv<TvShowsResponse>> {
@@ -192,10 +201,12 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
                 }
             })
         }
+        EspressoIdlingResource.decrement()
         return featuredTvShowsList
     }
 
     override fun getOnAirTvShows(): LiveData<List<MovieTv>> {
+        EspressoIdlingResource.increment()
         val onAirTvShows = networkDataSource.getOnAirTvShows()
         GlobalScope.launch {
             onAirTvShows.enqueue(object : Callback<ResponseDataTv<TvShowsResponse>> {
@@ -231,10 +242,12 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
                 }
             })
         }
+        EspressoIdlingResource.decrement()
         return nowMoviesList
     }
 
     override fun getDetailMovies(id: String): LiveData<DetailMovieTv> {
+        EspressoIdlingResource.increment()
         val detailMoviesResponse = networkDataSource.getMoviesDetail(id)
         val detailMovies = MutableLiveData<DetailMovieTv>()
         detailMoviesResponse.enqueue(object : Callback<DetailMoviesResponse> {
@@ -270,10 +283,12 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
                 Log.d("fail", t.message.toString())
             }
         })
+        EspressoIdlingResource.decrement()
         return detailMovies
     }
 
     override fun getDetailTvShows(id: String): LiveData<DetailMovieTv> {
+        EspressoIdlingResource.increment()
         val detailTvShowsResponse = networkDataSource.getTvShowsDetail(id)
         val detailTvShows = MutableLiveData<DetailMovieTv>()
         detailTvShowsResponse.enqueue(object : Callback<DetailTvShowsResponse> {
@@ -309,29 +324,7 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
                 Log.d("fail", t.message.toString())
             }
         })
+        EspressoIdlingResource.decrement()
         return detailTvShows
     }
-
-//    override fun testGetFeaturedMovies(): LiveData<List<MovieTv>> {
-//        val featuredMoviesResponse = networkDataSource.getFeaturedMovies()
-//        val movieList = MutableLiveData<List<MovieTv>>()
-//        featuredMoviesResponse.enqueue(object: Callback<List<ResponseDataMovies>>{
-//            override fun onResponse(call: Call<List<ResponseDataMovies>>, response: Response<List<ResponseDataMovies>>) {
-//                if(response.isSuccessful){}
-//            }
-//
-//            override fun onFailure(call: Call<List<ResponseDataMovies>>, t: Throwable) {
-//                TODO("Not yet implemented")
-//            }
-//
-//        })
-//        featuredMoviesResponse(object : ApiCallback<ArrayList<MovieList>> {
-//            override fun onSuccess(item: ArrayList<MovieList>) {
-//                movieList.postValue(item)
-//            }
-//
-//            override fun onFailure(error: Throwable) {}
-//        })
-//        return movieList
-//    }
 }

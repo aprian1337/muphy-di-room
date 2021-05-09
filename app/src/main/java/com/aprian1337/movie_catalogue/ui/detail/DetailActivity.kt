@@ -1,8 +1,8 @@
 package com.aprian1337.movie_catalogue.ui.detail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.aprian1337.movie_catalogue.R
 import com.aprian1337.movie_catalogue.data.models.DetailMovieTv
