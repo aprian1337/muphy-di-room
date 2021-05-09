@@ -1,7 +1,9 @@
 package com.aprian1337.movie_catalogue.ui.main
 
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.PerformException
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeUp
@@ -10,8 +12,10 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.aprian1337.movie_catalogue.R
-import com.aprian1337.movie_catalogue.data.models.MovieTv
+import com.aprian1337.movie_catalogue.utils.EspressoIdlingResource
 import org.hamcrest.Matchers.not
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -20,6 +24,17 @@ class MainActivityTest {
 
     @get: Rule
     var activityRule = ActivityScenarioRule(MainActivity::class.java)
+
+    @Before
+    fun setUp() {
+        ActivityScenario.launch(MainActivity::class.java)
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingResource)
+    }
+
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingResource)
+    }
 
     @Test
     fun loadAllViewMenu() {
@@ -33,14 +48,14 @@ class MainActivityTest {
         onView(withId(R.id.rv_featured_movie)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_featured_movie)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                DummyData.getFeaturedMovies().size
+                15
             )
         )
         onView(withId(R.id.tv_header_featured_movies)).perform(swipeUp())
         onView(withId(R.id.rv_list_movies)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_list_movies)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                DummyData.getMovies().size
+                15
             )
         )
     }
@@ -51,14 +66,14 @@ class MainActivityTest {
         onView(withId(R.id.rv_featured_tv_show)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_featured_tv_show)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                DummyData.getFeaturedTvShows().size
+                15
             )
         )
         onView(withId(R.id.tv_header_featured_tvshows)).perform(swipeUp())
         onView(withId(R.id.rv_list_tv_shows)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_list_tv_shows)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                DummyData.getTvShows().size
+                15
             )
         )
     }
@@ -66,7 +81,6 @@ class MainActivityTest {
     @Test
     fun detailDataFromFeaturedMovies() {
         val position = 5
-        val data = DummyData.getFeaturedMovies()[position]
         onView(withId(R.id.rv_featured_movie)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_featured_movie)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
@@ -74,13 +88,12 @@ class MainActivityTest {
                 click()
             )
         )
-        checkDetail(data)
+        checkDetail()
     }
 
     @Test
     fun detailDataFromListMovies() {
         val position = 4
-        val data = DummyData.getMovies()[position]
         try {
             for (i in 1..20) {
                 onView(withId(R.id.tv_list_movies)).perform(swipeUp())
@@ -93,14 +106,13 @@ class MainActivityTest {
                     click()
                 )
             )
-            checkDetail(data)
+            checkDetail()
         }
     }
 
     @Test
     fun detailDataFromFeaturedTvShow() {
         val position = 5
-        val data = DummyData.getFeaturedTvShows()[position]
         onView(withId(R.id.nav_tvshow)).perform(click())
         onView(withId(R.id.rv_featured_tv_show)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_featured_tv_show)).perform(
@@ -109,13 +121,12 @@ class MainActivityTest {
                 click()
             )
         )
-        checkDetail(data)
+        checkDetail()
     }
 
     @Test
     fun detailDataFromListTvShow() {
         val position = 14
-        val data = DummyData.getTvShows()[position]
         onView(withId(R.id.nav_tvshow)).perform(click())
         try {
             for (i in 1..20) {
@@ -129,26 +140,21 @@ class MainActivityTest {
                     click()
                 )
             )
-            checkDetail(data)
+            checkDetail()
         }
     }
 
-    private fun checkDetail(data: MovieTv) {
+    private fun checkDetail() {
         onView(withId(R.id.tv_detail_title)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_detail_title)).check(matches(not(withText(""))))
-        onView(withId(R.id.tv_detail_title)).check(matches(withText(data.title)))
         onView(withId(R.id.tv_detail_genre)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_detail_genre)).check(matches(not(withText(""))))
-        onView(withId(R.id.tv_detail_genre)).check(matches(withText(data.genre)))
         onView(withId(R.id.tv_detail_length)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_detail_length)).check(matches(not(withText(""))))
-        onView(withId(R.id.tv_detail_length)).check(matches(withText(data.length)))
         onView(withId(R.id.tv_detail_overview)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_detail_overview)).check(matches(not(withText(""))))
-        onView(withId(R.id.tv_detail_overview)).check(matches(withText(data.overview)))
         onView(withId(R.id.tv_detail_parental)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_detail_parental)).check(matches(not(withText(""))))
-        onView(withId(R.id.tv_detail_parental)).check(matches(withText(data.parental)))
         onView(withId(R.id.imgDetailView)).check(matches(isDisplayed()))
     }
 }
