@@ -12,12 +12,12 @@ interface ApiService {
     fun getFeaturedMovies(
         @Query("api_key") apiKey : String = Constants.API_KEY,
         @Query("page") page : Int = 1
-    ) : Call<ResponseData<MoviesResponse>>
+    ) : Call<ResponseDataMovies<MoviesResponse>>
 
     @GET(Constants.ENDPOINT_NOW_MOVIES)
     fun getNowMovies(
         @Query("api_key") apiKey : String = Constants.API_KEY
-    ) : Call<ResponseData<MoviesResponse>>
+    ) : Call<ResponseDataMovies<MoviesResponse>>
 
     @GET(Constants.ENDPOINT_MOVIES_GENRE)
     fun getGenreMovies(
@@ -27,12 +27,12 @@ interface ApiService {
     @GET(Constants.ENDPOINT_FEATURED_TV_SHOWS)
     fun getFeaturedTvShows(
         @Query("api_key") apiKey : String = Constants.API_KEY,
-    ) : Call<ResponseData<TvShowsResponse>>
+    ) : Call<ResponseDataTv<TvShowsResponse>>
 
     @GET(Constants.ENDPOINT_ON_AIR_TVSHOWS)
     fun getOnAirTvShows(
         @Query("api_key") apiKey : String = Constants.API_KEY,
-    ) : Call<ResponseData<TvShowsResponse>>
+    ) : Call<ResponseDataTv<TvShowsResponse>>
 
     @GET(Constants.ENDPOINT_TV_SHOWS_GENRE)
     fun getGenreTvShows(
