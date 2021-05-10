@@ -8,9 +8,7 @@ import com.aprian1337.movie_catalogue.data.models.MovieTv
 import com.aprian1337.movie_catalogue.data.network.response.*
 import com.aprian1337.movie_catalogue.data.repository.MainDataSource
 import com.aprian1337.movie_catalogue.data.repository.NetworkDataSource
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -71,38 +69,24 @@ class FakeRepository (private val networkDataSource: NetworkDataSource) :
     }
 
     override fun getFeaturedMovies(): LiveData<List<MovieTv>> {
-        val featuredMoviesResponse = networkDataSource.getFeaturedMovies()
-        GlobalScope.launch {
-            featuredMoviesResponse.enqueue(object : Callback<ResponseDataMovies<MoviesResponse>> {
-                override fun onResponse(
-                    call: Call<ResponseDataMovies<MoviesResponse>>,
-                    responseMovies: Response<ResponseDataMovies<MoviesResponse>>
-                ) {
-                    if (responseMovies.isSuccessful) {
-                        val movieList = mutableListOf<MovieTv>()
-                        for (datas in responseMovies.body()?.results!!) {
-
-                            movieList.add(
-                                MovieTv(
-                                    datas.id,
-                                    datas.title,
-                                    datas.genreIds,
-                                    datas.releaseDate,
-                                    datas.overview,
-                                    datas.posterPath,
-                                    datas.voteAverage.toString(),
-                                )
+        CoroutineScope(Dispatchers.IO).launch {
+            networkDataSource.getFeaturedMovies(object : loadMoviesCallback {
+                override fun onAllMoviesReceived(movieResponse: List<MoviesResponse>) {
+                    val list = mutableListOf<MovieTv>()
+                    for (data in movieResponse) {
+                        list.add(
+                            MovieTv(
+                                data.id,
+                                data.title,
+                                data.genreIds,
+                                data.releaseDate,
+                                data.overview,
+                                data.posterPath,
+                                data.voteAverage.toString(),
                             )
-                        }
-                        featuredMoviesList.postValue(movieList)
+                        )
                     }
-                }
-
-                override fun onFailure(
-                    call: Call<ResponseDataMovies<MoviesResponse>>,
-                    t: Throwable
-                ) {
-                    Log.d("fail", t.message.toString())
+                    featuredMoviesList.postValue(list)
                 }
             })
         }
