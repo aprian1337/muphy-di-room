@@ -48,14 +48,14 @@ class MainActivityTest {
         onView(withId(R.id.rv_featured_movie)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_featured_movie)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                15
+                19
             )
         )
         onView(withId(R.id.tv_header_featured_movies)).perform(swipeUp())
         onView(withId(R.id.rv_list_movies)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_list_movies)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                15
+                19
             )
         )
     }
@@ -66,14 +66,14 @@ class MainActivityTest {
         onView(withId(R.id.rv_featured_tv_show)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_featured_tv_show)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                15
+                19
             )
         )
         onView(withId(R.id.tv_header_featured_tvshows)).perform(swipeUp())
         onView(withId(R.id.rv_list_tv_shows)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_list_tv_shows)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                15
+                19
             )
         )
     }
@@ -112,7 +112,7 @@ class MainActivityTest {
 
     @Test
     fun detailDataFromFeaturedTvShow() {
-        val position = 5
+        val position = 15
         onView(withId(R.id.nav_tvshow)).perform(click())
         onView(withId(R.id.rv_featured_tv_show)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_featured_tv_show)).perform(

@@ -1,7 +1,6 @@
 package com.aprian1337.movie_catalogue.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.aprian1337.movie_catalogue.data.repository.FakeRepository
 import com.aprian1337.movie_catalogue.data.repository.NetworkDataSource
 import com.aprian1337.movie_catalogue.utils.DummyData
 import com.aprian1337.movie_catalogue.utils.LiveDataTestUtil

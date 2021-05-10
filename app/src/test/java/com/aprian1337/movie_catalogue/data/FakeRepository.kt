@@ -1,10 +1,12 @@
-package com.aprian1337.movie_catalogue.data.repository
+package com.aprian1337.movie_catalogue.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.aprian1337.movie_catalogue.data.models.DetailMovieTv
 import com.aprian1337.movie_catalogue.data.models.MovieTv
 import com.aprian1337.movie_catalogue.data.network.response.*
+import com.aprian1337.movie_catalogue.data.repository.MainDataSource
+import com.aprian1337.movie_catalogue.data.repository.NetworkDataSource
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -144,7 +146,8 @@ class FakeRepository (private val networkDataSource: NetworkDataSource) :
 
     override fun getDetailMovies(id: String): LiveData<DetailMovieTv> {
         GlobalScope.launch {
-            networkDataSource.getMoviesDetail(id, object : NetworkDataSource.LoadDetailMovieCallback {
+            networkDataSource.getMoviesDetail(id, object :
+                NetworkDataSource.LoadDetailMovieCallback {
                 override fun onDetailMovieReceived(detailResponse: DetailMoviesResponse) {
                     detailResponse.apply {
                         var stringGenre = ""
@@ -173,7 +176,8 @@ class FakeRepository (private val networkDataSource: NetworkDataSource) :
 
     override fun getDetailTvShows(id: String): LiveData<DetailMovieTv> {
         GlobalScope.launch {
-            networkDataSource.getTvShowsDetail(id, object : NetworkDataSource.LoadDetailTvShowCallback {
+            networkDataSource.getTvShowsDetail(id, object :
+                NetworkDataSource.LoadDetailTvShowCallback {
                 override fun onDetailTvShowReceived(detailResponse: DetailTvShowsResponse) {
                     detailResponse.apply {
                         var stringGenre = ""
