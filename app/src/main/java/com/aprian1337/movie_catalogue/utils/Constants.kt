@@ -6,7 +6,7 @@ object Constants {
     const val BASE_URL = "https://api.themoviedb.org/3/"
     const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500"
     const val ENDPOINT_FEATURED_MOVIES = "movie/popular"
-    const val ENDPOINT_NOW_MOVIES = "movie/popular"
+    const val ENDPOINT_NOW_MOVIES = "movie/now_playing"
     const val ENDPOINT_MOVIES_GENRE = "genre/movie/list"
     const val ENDPOINT_FEATURED_TV_SHOWS = "tv/popular"
     const val ENDPOINT_ON_AIR_TVSHOWS = "tv/on_the_air"
