@@ -7,29 +7,6 @@
     android:background="@color/navy"
     tools:context=".ui.splashscreen.SplashscreenActivity">
 
-<!--    <com.airbnb.lottie.LottieAnimationView-->
-<!--        android:id="@+id/animView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="200dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:lottie_autoPlay="true"-->
-<!--        app:lottie_rawRes="@raw/splash"-->
-<!--        app:lottie_loop="false"-->
-<!--        app:lottie_speed="1" />-->
-
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:fontFamily="@font/poppins_regular"-->
-<!--        android:text="@string/app_name"-->
-<!--        android:textSize="20sp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/animView"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/animView" />-->
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="180dp"
