@@ -8,6 +8,10 @@
         android:title="TV Shows"
         android:icon="@drawable/ic_outline_live_tv_24"/>
 
+    <item android:id="@+id/nav_favorite"
+        android:title="Favorites"
+        android:icon="@drawable/ic_baseline_favorite_24"/>
+
     <item android:id="@+id/nav_profile"
         android:title="Profile"
         android:icon="@drawable/ic_outline_account_circle_24"/>
