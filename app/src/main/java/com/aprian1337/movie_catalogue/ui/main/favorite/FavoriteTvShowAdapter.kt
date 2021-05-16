@@ -14,9 +14,9 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 class FavoriteTvShowAdapter : PagedListAdapter<FavoriteEntity, FavoriteTvShowAdapter.FavoriteViewHolder>(
     DIFF_CALLBACK) {
 
-    private var setOnItemClickCallback : FavoriteTvShowAdapter.OnItemClickCallback? = null
+    private var setOnItemClickCallback : OnItemClickCallback? = null
 
-    fun setOnItemClickCallback(onItemClickCallback: FavoriteTvShowAdapter.OnItemClickCallback){
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback){
         this.setOnItemClickCallback = onItemClickCallback
     }
 

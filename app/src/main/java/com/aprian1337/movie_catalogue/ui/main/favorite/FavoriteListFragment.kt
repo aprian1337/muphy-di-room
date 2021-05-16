@@ -39,7 +39,7 @@ class FavoriteListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFavoriteListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -102,7 +102,7 @@ class FavoriteListFragment : Fragment() {
         }
     }
 
-    fun getSwipe(idxTabs: Int): ItemTouchHelper {
+    private fun getSwipe(idxTabs: Int): ItemTouchHelper {
         return ItemTouchHelper(object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int =
                 makeMovementFlags(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
@@ -116,7 +116,7 @@ class FavoriteListFragment : Fragment() {
                             favoriteEntity?.let { viewModel.setFav(it) }
 
                             val snackbar = Snackbar.make(view as View, "Undo removed from favorite movies", Snackbar.LENGTH_LONG)
-                            snackbar.setAction("Undo") { v ->
+                            snackbar.setAction("Undo") {
                                 favoriteEntity?.let { viewModel.addFav(it) }
                             }
                             snackbar.show()
@@ -126,7 +126,7 @@ class FavoriteListFragment : Fragment() {
                             favoriteEntity?.let { viewModel.setFav(it) }
 
                             val snackbar = Snackbar.make(view as View, "Undo removed from favorite tv shows", Snackbar.LENGTH_LONG)
-                            snackbar.setAction("Undo") { v ->
+                            snackbar.setAction("Undo") {
                                 favoriteEntity?.let { viewModel.addFav(it) }
                             }
                             snackbar.show()
@@ -138,13 +138,11 @@ class FavoriteListFragment : Fragment() {
         })
     }
 
-    fun showLoading(state: Boolean){
-        with(binding){
-            if(state){
-                binding.pbFavorite.visibility = View.VISIBLE
-            }else{
-                binding.pbFavorite.visibility = View.GONE
-            }
+    private fun showLoading(state: Boolean){
+        if(state){
+            binding.pbFavorite.visibility = View.VISIBLE
+        }else{
+            binding.pbFavorite.visibility = View.GONE
         }
     }
 }

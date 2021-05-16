@@ -148,7 +148,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun setFav(state : Boolean){
+    private fun setFav(state : Boolean){
         if(state){
             binding.btnFav.setImageDrawable(
                 ContextCompat.getDrawable(
