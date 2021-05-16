@@ -14,4 +14,5 @@ object Constants {
     const val EMDPOINT_TV_SHOWS_DETAIL = "tv/{id}"
     const val ENDPOINT_MOVIES_DETAIL = "movie/{id}"
     const val API_KEY = BuildConfig.AUTH_TOKEN
+    const val TABLE_FAVORITES = "favorites"
 }
