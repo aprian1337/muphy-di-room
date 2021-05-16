@@ -1,10 +1,11 @@
 package com.aprian1337.movie_catalogue.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.aprian1337.movie_catalogue.R
 import com.aprian1337.movie_catalogue.databinding.ActivityMainBinding
+import com.aprian1337.movie_catalogue.ui.main.favorite.FavoriteFragment
 import com.aprian1337.movie_catalogue.ui.main.movie.MoviesFragment
 import com.aprian1337.movie_catalogue.ui.main.profile.ProfileFragment
 import com.aprian1337.movie_catalogue.ui.main.tvshow.TvShowsFragment
@@ -31,6 +32,11 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.nav_profile -> {
                     addFragment(ProfileFragment())
+                    return@setOnNavigationItemSelectedListener true
+                }
+
+                R.id.nav_favorite -> {
+                    addFragment(FavoriteFragment())
                     return@setOnNavigationItemSelectedListener true
                 }
             }

@@ -6,15 +6,19 @@ import androidx.lifecycle.Observer
 import com.aprian1337.movie_catalogue.data.models.DetailMovieTv
 import com.aprian1337.movie_catalogue.data.repository.MainRepository
 import com.aprian1337.movie_catalogue.utils.DummyData
-import com.nhaarman.mockitokotlin2.verify
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 
+@RunWith(MockitoJUnitRunner::class)
 class DetailViewModelTest {
 
     private lateinit var viewModel: DetailViewModel
@@ -25,17 +29,20 @@ class DetailViewModelTest {
     @Mock
     private lateinit var observer: Observer<DetailMovieTv>
 
+    @Mock
+    private lateinit var observerCheck: Observer<Int>
+
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
-    fun setup(){
+    fun setup() {
         MockitoAnnotations.initMocks(this)
         viewModel = DetailViewModel(repository)
     }
 
     @Test
-    fun getDetailMovies(){
+    fun getDetailMovies() {
         val detailList = MutableLiveData<DetailMovieTv>()
         val detailData = DummyData.detailData
         detailList.value = detailData
@@ -50,7 +57,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun getDetailTvShows(){
+    fun getDetailTvShows() {
         val detailTvShowList = MutableLiveData<DetailMovieTv>()
         val detailData = DummyData.detailData
         detailTvShowList.value = detailData
@@ -62,5 +69,30 @@ class DetailViewModelTest {
 
         viewModel.getDetailTvShows(1).observeForever(observer)
         verify(observer).onChanged(detailData)
+    }
+
+    @Test
+    fun checkFav() = runBlocking {
+        var checkFavData = 1
+        val checkLiveData = MutableLiveData<Int>()
+        checkLiveData.value = checkFavData
+
+        Mockito.`when`(repository.checkFav("MOVIES", 1)).thenReturn(checkLiveData)
+        var checkEntity = viewModel.checkFav("MOVIES", 1).value
+        verify(repository).checkFav("MOVIES", 1)
+        Assert.assertNotNull(checkEntity)
+        Assert.assertEquals(checkEntity, checkFavData)
+        viewModel.checkFav("MOVIES", 1).observeForever(observerCheck)
+        verify(observerCheck).onChanged(checkFavData)
+
+        checkFavData = 0
+        checkLiveData.value = checkFavData
+        Mockito.`when`(repository.checkFav("TVSHOWS", 2)).thenReturn(checkLiveData)
+        checkEntity = viewModel.checkFav("TVSHOWS", 2).value
+        verify(repository).checkFav("TVSHOWS", 2)
+        Assert.assertNotNull(checkEntity)
+        Assert.assertEquals(checkEntity, checkFavData)
+        viewModel.checkFav("TVSHOWS", 2).observeForever(observerCheck)
+        verify(observerCheck).onChanged(checkFavData)
     }
 }

@@ -2,15 +2,20 @@ package com.aprian1337.movie_catalogue.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.aprian1337.movie_catalogue.data.local.FavoriteEntity
 import com.aprian1337.movie_catalogue.data.models.DetailMovieTv
 import com.aprian1337.movie_catalogue.data.models.MovieTv
 import com.aprian1337.movie_catalogue.data.network.response.*
 import com.aprian1337.movie_catalogue.data.repository.MainDataSource
-import com.aprian1337.movie_catalogue.data.repository.NetworkDataSource
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class FakeRepository (private val networkDataSource: NetworkDataSource) :
+class FakeRepository constructor(
+    private val networkDataSource: NetworkDataSource,
+    private val localDataSource: LocalDataSource
+) :
     MainDataSource {
 
     val featuredMoviesList = MutableLiveData<List<MovieTv>>()
@@ -146,8 +151,7 @@ class FakeRepository (private val networkDataSource: NetworkDataSource) :
 
     override fun getDetailMovies(id: String): LiveData<DetailMovieTv> {
         GlobalScope.launch {
-            networkDataSource.getMoviesDetail(id, object :
-                NetworkDataSource.LoadDetailMovieCallback {
+            networkDataSource.getMoviesDetail(id, object : NetworkDataSource.LoadDetailMovieCallback {
                 override fun onDetailMovieReceived(detailResponse: DetailMoviesResponse) {
                     detailResponse.apply {
                         var stringGenre = ""
@@ -159,6 +163,7 @@ class FakeRepository (private val networkDataSource: NetworkDataSource) :
                             }
                         }
                         val data = DetailMovieTv(
+                            this.id,
                             this.originalTitle,
                             stringGenre,
                             this.releaseDate,
@@ -176,8 +181,7 @@ class FakeRepository (private val networkDataSource: NetworkDataSource) :
 
     override fun getDetailTvShows(id: String): LiveData<DetailMovieTv> {
         GlobalScope.launch {
-            networkDataSource.getTvShowsDetail(id, object :
-                NetworkDataSource.LoadDetailTvShowCallback {
+            networkDataSource.getTvShowsDetail(id, object : NetworkDataSource.LoadDetailTvShowCallback {
                 override fun onDetailTvShowReceived(detailResponse: DetailTvShowsResponse) {
                     detailResponse.apply {
                         var stringGenre = ""
@@ -189,6 +193,7 @@ class FakeRepository (private val networkDataSource: NetworkDataSource) :
                             }
                         }
                         val data = DetailMovieTv(
+                            this.id,
                             this.originalName,
                             stringGenre,
                             this.firstAirDate,
@@ -203,4 +208,25 @@ class FakeRepository (private val networkDataSource: NetworkDataSource) :
         }
         return detailTvShow
     }
+
+    override suspend fun addFav(favoriteEntity: FavoriteEntity) = localDataSource.addFav(favoriteEntity)
+    override fun getAllFav(type: String): LiveData<PagedList<FavoriteEntity>>{
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(true)
+            .setInitialLoadSizeHint(20)
+            .setPageSize(20)
+            .build()
+        return LivePagedListBuilder(localDataSource.getAllFav(type), config).build()
+    }
+
+    override fun checkFav(type: String, id: Int): LiveData<Int> {
+        val data = MutableLiveData<Int>()
+        GlobalScope.launch {
+            data.postValue(localDataSource.checkFav(type, id))
+        }
+        return data
+    }
+
+    override suspend fun deleteFav(favoriteEntity: FavoriteEntity) = localDataSource.deleteFav(favoriteEntity)
+
 }

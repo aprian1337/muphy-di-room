@@ -1,9 +1,11 @@
 package com.aprian1337.movie_catalogue.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.aprian1337.movie_catalogue.data.repository.NetworkDataSource
+import androidx.paging.DataSource
+import com.aprian1337.movie_catalogue.data.local.FavoriteEntity
 import com.aprian1337.movie_catalogue.utils.DummyData
 import com.aprian1337.movie_catalogue.utils.LiveDataTestUtil
+import com.aprian1337.movie_catalogue.utils.PagedListUtil
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.eq
@@ -16,14 +18,16 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner.Silent::class)
 class MainRepositoryTest {
-    private val remoteApi = Mockito.mock(NetworkDataSource::class.java)
-    private val fakeRepository = FakeRepository(remoteApi)
+    private val remoteApi = mock(NetworkDataSource::class.java)
+    private val localDataSource = mock(LocalDataSource::class.java)
+    private val fakeRepository = FakeRepository(remoteApi, localDataSource)
 
     private val movieResponse = DummyData.moviesResponse
     private val tvShowsResponse = DummyData.tvShowsResponse
@@ -175,6 +179,42 @@ class MainRepositoryTest {
         }
         Assert.assertNotNull(data)
         Assert.assertEquals(data.size, this.genreResponse.size)
+    }
+
+    @Test
+    fun getAllFav(){
+        val dataSourceFactory = mock(DataSource.Factory::class.java) as DataSource.Factory<Int, FavoriteEntity>
+        `when`(localDataSource.getAllFav("MOVIES")).thenReturn(dataSourceFactory)
+        fakeRepository.getAllFav("MOVIES")
+
+        var favoriteEntity = PagedListUtil.mockPagedList(DummyData.favorite)
+        verify(localDataSource).getAllFav("MOVIES")
+        Assert.assertNotNull(favoriteEntity)
+        Assert.assertEquals(DummyData.favorite.size, favoriteEntity.size)
+
+        `when`(localDataSource.getAllFav("TVSHOWS")).thenReturn(dataSourceFactory)
+        fakeRepository.getAllFav("TVSHOWS")
+
+        favoriteEntity = PagedListUtil.mockPagedList(DummyData.favorite)
+        verify(localDataSource).getAllFav("TVSHOWS")
+        Assert.assertNotNull(favoriteEntity)
+        Assert.assertEquals(DummyData.favorite.size, favoriteEntity.size)
+    }
+
+    @Test
+    fun checkFav() = runBlocking{
+        val checkData = 1
+        `when`(localDataSource.checkFav("MOVIES", 1)).thenReturn(checkData)
+        var data = LiveDataTestUtil.getValue(fakeRepository.checkFav("MOVIES", 1))
+        verify(localDataSource).checkFav("MOVIES", 1)
+        Assert.assertNotNull(data)
+        Assert.assertEquals(data, checkData)
+
+        `when`(localDataSource.checkFav("TVSHOWS", 2)).thenReturn(checkData)
+        data = LiveDataTestUtil.getValue(fakeRepository.checkFav("TVSHOWS", 2))
+        verify(localDataSource).checkFav("TVSHOWS", 2)
+        Assert.assertNotNull(data)
+        Assert.assertEquals(data, checkData)
     }
 
 }
