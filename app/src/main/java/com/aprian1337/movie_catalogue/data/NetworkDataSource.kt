@@ -1,4 +1,4 @@
-package com.aprian1337.movie_catalogue.data.repository
+package com.aprian1337.movie_catalogue.data
 
 import com.aprian1337.movie_catalogue.data.network.ApiClient
 import com.aprian1337.movie_catalogue.data.network.response.*

@@ -2,18 +2,18 @@ package com.aprian1337.movie_catalogue.ui.main.movie
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aprian1337.movie_catalogue.data.models.MovieTv
 import com.aprian1337.movie_catalogue.databinding.FragmentMoviesBinding
 import com.aprian1337.movie_catalogue.ui.AppViewModelFactory
+import com.aprian1337.movie_catalogue.ui.detail.DetailActivity
 import com.aprian1337.movie_catalogue.ui.main.MovieTvAdapter
 import com.aprian1337.movie_catalogue.ui.main.MovieTvFeaturedAdapter
-import com.aprian1337.movie_catalogue.ui.detail.DetailActivity
 
 class MoviesFragment : Fragment() {
     private var _binding : FragmentMoviesBinding? = null
@@ -38,7 +38,7 @@ class MoviesFragment : Fragment() {
         setupRv()
         setFeaturedLoading(true)
         setListLoading(true)
-        viewModel = ViewModelProvider(this, AppViewModelFactory.getInstance()).get(MoviesViewModel::class.java)
+        viewModel = ViewModelProvider(this, AppViewModelFactory.getInstance(activity?.applicationContext!!)).get(MoviesViewModel::class.java)
         viewModel.apply {
             getNowMovies().observe(viewLifecycleOwner, {
                 movieTvAdapter.setMovieTv(it)
