@@ -2,13 +2,21 @@ package com.aprian1337.movie_catalogue.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.aprian1337.movie_catalogue.data.LocalDataSource
+import com.aprian1337.movie_catalogue.data.NetworkDataSource
+import com.aprian1337.movie_catalogue.data.local.FavoriteEntity
 import com.aprian1337.movie_catalogue.data.models.DetailMovieTv
 import com.aprian1337.movie_catalogue.data.models.MovieTv
 import com.aprian1337.movie_catalogue.data.network.response.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class MainRepository constructor(private val networkDataSource: NetworkDataSource) :
+class MainRepository constructor(
+    private val networkDataSource: NetworkDataSource,
+    private val localDataSource: LocalDataSource
+    ) :
     MainDataSource {
 
     val featuredMoviesList = MutableLiveData<List<MovieTv>>()
@@ -24,9 +32,9 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
         @Volatile
         private var instance: MainRepository? = null
 
-        fun getInstance(networkData: NetworkDataSource): MainRepository =
+        fun getInstance(networkData: NetworkDataSource, localData :LocalDataSource): MainRepository =
             instance ?: synchronized(this) {
-                instance ?: MainRepository(networkData).apply {
+                instance ?: MainRepository(networkData, localData).apply {
                     instance = this
                 }
             }
@@ -168,6 +176,7 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
                             }
                         }
                         val data = DetailMovieTv(
+                            this.id,
                             this.originalTitle,
                             stringGenre,
                             this.releaseDate,
@@ -197,6 +206,7 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
                             }
                         }
                         val data = DetailMovieTv(
+                            this.id,
                             this.originalName,
                             stringGenre,
                             this.firstAirDate,
@@ -211,4 +221,25 @@ class MainRepository constructor(private val networkDataSource: NetworkDataSourc
         }
         return detailTvShow
     }
+
+    override suspend fun addFav(favoriteEntity: FavoriteEntity) = localDataSource.addFav(favoriteEntity)
+    override fun getAllFav(type: String): LiveData<PagedList<FavoriteEntity>>{
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(true)
+            .setInitialLoadSizeHint(20)
+            .setPageSize(20)
+            .build()
+        return LivePagedListBuilder(localDataSource.getAllFav(type), config).build()
+    }
+
+    override fun checkFav(type: String, id: Int): LiveData<Int> {
+        val data = MutableLiveData<Int>()
+        GlobalScope.launch {
+            data.postValue(localDataSource.checkFav(type, id))
+        }
+        return data
+    }
+
+    override suspend fun deleteFav(favoriteEntity: FavoriteEntity) = localDataSource.deleteFav(favoriteEntity)
+
 }
