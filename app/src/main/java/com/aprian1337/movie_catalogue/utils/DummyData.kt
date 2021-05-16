@@ -1,5 +1,6 @@
 package com.aprian1337.movie_catalogue.utils
 
+import com.aprian1337.movie_catalogue.data.local.FavoriteEntity
 import com.aprian1337.movie_catalogue.data.models.DetailMovieTv
 import com.aprian1337.movie_catalogue.data.models.MovieTv
 import com.aprian1337.movie_catalogue.data.network.response.*
@@ -30,6 +31,7 @@ object DummyData {
     )
 
     val detailData = DetailMovieTv(
+        1,
         "Manusia Hebat",
         "Comedy",
         "11/1/1112",
@@ -46,24 +48,24 @@ object DummyData {
     )
 
     val moviesResponse =
-            listOf(
-                MoviesResponse(
-                    "Washed-up MMA fighter Cole Young, unaware of his heritage, and hunted by Emperor Shang Tsung's best warrior, Sub-Zero, seeks out and trains with Earth's greatest champions as he prepares to stand against the enemies of Outworld in a high stakes battle for the universe.",
-                    "en",
-                    "Mortal Kombat",
-                    false,
-                    "Mortal Kombat",
-                    listOf(28, 14, 12, 878),
-                    "/xGuOF1T3WmPsAcQEQJfnG7Ud9f8.jpg",
-                    "/9yBVqNruk6Ykrwc32qrK2TIE5xw.jpg",
-                    "2021-04-07",
-                    4870.197,
-                    7.8,
-                    460465,
-                    false,
-                    2145
-                )
+        listOf(
+            MoviesResponse(
+                "Washed-up MMA fighter Cole Young, unaware of his heritage, and hunted by Emperor Shang Tsung's best warrior, Sub-Zero, seeks out and trains with Earth's greatest champions as he prepares to stand against the enemies of Outworld in a high stakes battle for the universe.",
+                "en",
+                "Mortal Kombat",
+                false,
+                "Mortal Kombat",
+                listOf(28, 14, 12, 878),
+                "/xGuOF1T3WmPsAcQEQJfnG7Ud9f8.jpg",
+                "/9yBVqNruk6Ykrwc32qrK2TIE5xw.jpg",
+                "2021-04-07",
+                4870.197,
+                7.8,
+                460465,
+                false,
+                2145
             )
+        )
 
     val tvShowsResponse = listOf(
         TvShowsResponse(
@@ -96,6 +98,7 @@ object DummyData {
     )
 
     val detailTvShow = DetailMovieTv(
+        15550,
         "Sleek Geeks",
         "Documentary",
         "2008-01-03",
@@ -119,6 +122,7 @@ object DummyData {
     )
 
     val detailMovie = DetailMovieTv(
+        15911,
         "The Village Barbershop",
         "Comedy, Drama",
         "2008-01-01",
@@ -132,6 +136,27 @@ object DummyData {
         GenresItem("Drama", 18),
         GenresItem("Documentary", 99),
         GenresItem("Animation", 16)
+    )
+
+    val favorite = listOf(
+        FavoriteEntity(
+            1,
+            "Batman",
+            "Action",
+            "8.9",
+            "/dsiajdoiasdjioas.jpg",
+            "1/1/2020",
+            "MOVIES",
+        ),
+        FavoriteEntity(
+            1,
+            "Batman Series",
+            "Action",
+            "8.2",
+            "/dsiasdazq.jpg",
+            "1/1/2021",
+            "TVSHOWS",
+        ),
     )
 
 }
